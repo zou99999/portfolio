@@ -1,14 +1,8 @@
-body {
-  max-width: 100ch;
-  margin-inline: auto;
-  padding: 1rem;}
 nav ul,
 nav li {
   display: contents;
 }
-nav {
-  display: flex;
-}
+
 nav {
   display: flex;
   margin-bottom: 1.5rem;
@@ -29,14 +23,19 @@ nav a.current {
   font-weight: bold;                          
 }
 
+nav a:hover {
+  border-bottom: 0.4em solid var(--color-accent);
+  padding-bottom: 0.1em; 
+}
+
+body {
+  max-width: 100ch;
+  margin-inline: auto;
+  padding: 1rem;
+}
 
 html {
   --color-accent: oklch(40% 0.1 270); 
   accent-color: var(--color-accent);
-}
-
-nav a:hover {
-  border-bottom: 0.4em solid var(--color-accent);
-  padding-bottom: 0.1em; 
 }
 
