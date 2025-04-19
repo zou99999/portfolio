@@ -70,3 +70,23 @@ document.body.insertAdjacentHTML(
   </label>
   `
 );
+
+
+let select = document.querySelector('.color-scheme select');
+
+// Step 1: Define a reusable function
+function setColorScheme(scheme) {
+  document.documentElement.style.setProperty('color-scheme', scheme);
+  localStorage.colorScheme = scheme;
+  select.value = scheme;
+}
+
+// Step 2: On page load, check if user has a saved preference
+if ("colorScheme" in localStorage) {
+  setColorScheme(localStorage.colorScheme);
+}
+
+// Step 3: When the user changes the dropdown, update everything
+select.addEventListener('input', function (event) {
+  setColorScheme(event.target.value);
+});
