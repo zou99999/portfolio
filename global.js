@@ -75,27 +75,28 @@ document.body.insertAdjacentHTML(
 
 let select = document.querySelector('.color-scheme select');
 
-// Function to apply color scheme
+// Function to apply theme
 function setColorScheme(scheme) {
   if (scheme === 'auto') {
-    // Default to dark, or use OS preference if desired:
-    scheme = 'dark';
-    // scheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    // Remove inline override to allow CSS default (light dark) to take effect
+    document.documentElement.style.removeProperty('color-scheme');
+  } else {
+    // Force light or dark
+    document.documentElement.style.setProperty('color-scheme', scheme);
   }
 
-  document.documentElement.style.setProperty('color-scheme', scheme);
   localStorage.colorScheme = scheme;
-  select.value = scheme === 'dark' || scheme === 'light' ? scheme : 'auto';
+  select.value = scheme;
 }
 
 // Load saved preference on page load
 if ("colorScheme" in localStorage) {
   setColorScheme(localStorage.colorScheme);
 } else {
-  setColorScheme("auto"); // default to auto on first visit
+  setColorScheme("auto"); // Default to automatic on first visit
 }
 
-// Update on selection change
+// Update when user changes the dropdown
 select.addEventListener('input', function (event) {
   setColorScheme(event.target.value);
 });
