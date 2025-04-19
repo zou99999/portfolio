@@ -72,21 +72,30 @@ document.body.insertAdjacentHTML(
 );
 
 
+
 let select = document.querySelector('.color-scheme select');
 
-// Step 1: Define a reusable function
+// Function to apply color scheme
 function setColorScheme(scheme) {
+  if (scheme === 'auto') {
+    // Default to dark, or use OS preference if desired:
+    scheme = 'dark';
+    // scheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+
   document.documentElement.style.setProperty('color-scheme', scheme);
   localStorage.colorScheme = scheme;
-  select.value = scheme;
+  select.value = scheme === 'dark' || scheme === 'light' ? scheme : 'auto';
 }
 
-// Step 2: On page load, check if user has a saved preference
+// Load saved preference on page load
 if ("colorScheme" in localStorage) {
   setColorScheme(localStorage.colorScheme);
+} else {
+  setColorScheme("auto"); // default to auto on first visit
 }
 
-// Step 3: When the user changes the dropdown, update everything
+// Update on selection change
 select.addEventListener('input', function (event) {
   setColorScheme(event.target.value);
 });
