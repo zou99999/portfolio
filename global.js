@@ -121,7 +121,6 @@ export async function fetchGitHubData(username) {
 }
 
 
-
 export function renderProjects(projects, containerElement, headingLevel = 'h2') {
   if (!containerElement) {
     console.error('Invalid container element provided');
