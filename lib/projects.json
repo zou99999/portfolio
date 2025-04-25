@@ -1,61 +1,75 @@
 [
     {
-        "title": "Lorem ipsum dolor sit.",
+        "title": "Recipe Rating Prediction",
+        "year": 2025,
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-        "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore similique consequatur dicta doloremque modi quam sapiente maxime architecto itaque laborum excepturi, incidunt doloribus rerum aperiam fugit possimus dolorem rem quos."
+        "description": "This data science project conducted at UCSD explores the factors influencing recipe ratings using a dataset from food.com. Specifically, this project investigates how various recipe nutrients, like calories and total fat, contributes to a recipe's rating. By analyzing these features, our project aims to explore viewer preferences of nutrition levels of highly-rated recipes and develop a predictive model for recipe ratings."
+
+
     },
     {
-        "title": "Odio modi corporis odit!",
+        "title": "Youtube Comments Generation",
+        "year": 2025,
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-        "description": "Dicta voluptas doloribus reiciendis, pariatur, odit quam modi, nisi exercitationem vitae unde omnis voluptatem. Voluptate dicta, ipsum perspiciatis iure, tenetur aperiam labore provident sequi quibusdam earum optio ullam magni dolorem?"
+        "description": "Generate Youtube comments using a transformer model. The model is trained on a dataset of Youtube comments and can generate new comments based on a given prompt. The generated comments can be used for various purposes, such as improving engagement on Youtube videos or generating fake comments for testing purposes."
     },
     {
-        "title": "Repellendus optio itaque eveniet?",
+        "title": "FPro Scores across Stores and Price Ranges",
+        "year": 2025,
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-        "description": "Autem, nostrum amet quos repellendus odio ut ipsa nam odit ipsum similique deserunt, aliquam voluptates sunt, animi nisi ad modi. Officia, autem fuga eligendi odio repellat dolore incidunt provident possimus!"
+        "description": "Created visualizations using FPro scores across different stores and price ranges. The visualizations help to understand how FPro scores vary across different stores and price ranges, and can be used to identify trends and patterns in the data."
     },
     {
-        "title": "At cumque perferendis eius!",
+        "title": "Deceptive Visualizations",
+        "year": 2025,
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
-        "description": "Nisi vel recusandae accusantium cum rem. Quia voluptates maiores consequuntur culpa aliquam eos a architecto voluptatem exercitationem, enim ipsa delectus amet quaerat obcaecati omnis placeat nam non fuga officiis quidem!"
+        "description": "Created two visualizations that are persuasive to both sides of the proposition. The visualizations are designed to be misleading and can be used to demonstrate how visualizations can be manipulated to support different arguments. The project aims to raise awareness about the potential for deception in visualizations and the importance of critical thinking when interpreting data."
     },
     {
-        "title": "Delectus corrupti eaque recusandae!",
+        "title": "DSC106: Project 3",
+        "year": 2025,
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
         "description": "Laudantium aperiam pariatur repellendus optio modi sit suscipit nemo in nobis ratione et vitae ipsum eos illum, ex repudiandae at debitis enim est sapiente perspiciatis voluptatum quod. Necessitatibus, ullam recusandae."
     },
     {
-        "title": "Reiciendis aliquid recusandae fuga.",
+        "title": "DSC106: Final Project",
+        "year": 2025,
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
         "description": "Suscipit, reprehenderit alias nulla neque repellendus, nisi, in quisquam tempora amet tenetur assumenda excepturi rerum aliquid! Laboriosam consequatur sapiente quo odio a nam porro! Esse cum dolor autem beatae natus."
     },
     {
-        "title": "Quas cumque debitis nesciunt!",
+        "title": "Permutation Testing",
+        "year": 2024,
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
         "description": "Ad eaque dignissimos quod quis cum veniam similique, tempora nisi quidem doloribus sunt tenetur numquam aliquam impedit libero atque odit asperiores culpa? Numquam reprehenderit sequi libero ipsum, quos excepturi fugit?"
     },
     {
-        "title": "Libero consequuntur labore iusto!",
+        "title": "Game Design",
+        "year": 2024,
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
         "description": "Odio praesentium a pariatur corrupti ducimus. Id, animi! Obcaecati corporis quo quae est, vel, numquam corrupti sunt pariatur facilis similique accusamus, laudantium quas rem asperiores! Architecto rem minima facilis! Adipisci."
     },
     {
         "title": "Repellendus vitae quam fugiat.",
+        "year": 2023,
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
         "description": "Repudiandae, optio porro. Perferendis molestiae deleniti voluptatibus laborum labore optio amet officiis nam dolore fugiat unde earum mollitia laudantium a, tempora expedita aspernatur voluptas? Nesciunt inventore commodi fugit deleniti ut."
     },
     {
         "title": "Tenetur harum maiores consequatur?",
+        "year": 2023,
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
         "description": "Recusandae quas corporis provident perferendis quod? Aliquid nemo facilis temporibus ipsam ab. Ratione, ipsum similique explicabo reiciendis fuga consequatur reprehenderit commodi, quis veniam cum ab. Cumque dolorem non dolore laboriosam."
     },
     {
         "title": "Omnis id non laudantium.",
+        "year": 2023,
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
         "description": "Veritatis, corporis iusto eligendi beatae, nobis perspiciatis fugit facere animi illum assumenda excepturi doloribus. Consectetur provident accusamus libero non aliquam, autem labore dicta, officiis at consequatur facilis fuga amet optio?"
     },
     {
         "title": "Recusandae ipsam doloremque modi.",
+        "year": 2020,
         "image": "https://vis-society.github.io/labs/2/images/empty.svg",
         "description": "Repellat rerum numquam, porro aspernatur quasi eius, inventore iusto suscipit repudiandae facere nobis voluptatum. Cum, nisi quia dolore recusandae harum asperiores facilis maxime pariatur, modi earum aliquid laborum aperiam accusamus!"
     }
