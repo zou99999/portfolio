@@ -118,7 +118,7 @@ export async function fetchJSON(url) {
 
 
 
-export function renderProjects(project, containerElement, headingLevel = 'h2') {
+export function renderProjects(projects, containerElement, headingLevel = 'h2') {
   if (!containerElement) {
     console.error('Invalid container element provided');
     return;
