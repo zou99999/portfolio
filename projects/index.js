@@ -1,8 +1,9 @@
 import { fetchJSON, renderProjects, fetchGitHubData } from '/portfolio/global.js';
 
-const projects = await fetchJSON('/portfolio/lib/projects.json');
+const allProjects = await fetchJSON('/portfolio/lib/projects.json');
+const latestProjects = allProjects.slice(0, 3);
 const projectsContainer = document.querySelector('.projects');
-renderProjects(projects, projectsContainer, 'h2');
+renderProjects(latestProjects, projectsContainer, 'h2');
 
 
 const githubData = await fetchGitHubData('zou99999'); // ← replace with your GitHub username
