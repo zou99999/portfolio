@@ -14,7 +14,6 @@ const profileStats = document.querySelector('#profile-stats');
 
 const projects = await fetchJSON('/portfolio/lib/projects.json');
 const container = document.querySelector('.projects-list');
-renderProjects(projects, container);
 
 // Call the chart!
 drawPieChart();
