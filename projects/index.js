@@ -1,4 +1,5 @@
 import { fetchJSON, renderProjects, fetchGitHubData } from '/portfolio/global.js';
+import { drawPieChart } from './projects.js';
 
 const allProjects = await fetchJSON('/portfolio/lib/projects.json');
 const latestProjects = allProjects.slice(0, 3);
@@ -10,6 +11,13 @@ const githubData = await fetchGitHubData('zou99999'); // ← replace with your G
 
 // Target the stats container
 const profileStats = document.querySelector('#profile-stats');
+
+const projects = await fetchJSON('/portfolio/lib/projects.json');
+const container = document.querySelector('.projects-list');
+renderProjects(projects, container);
+
+// Call the chart!
+drawPieChart();
 
 // Render GitHub stats if the container exists
 if (profileStats && githubData) {
