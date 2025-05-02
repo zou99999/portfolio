@@ -92,7 +92,7 @@ form button {
   justify-self: start;
 }
 
-.projects-list {
+.projects{
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(15em, 1fr));
   gap: 1.5em;
@@ -178,7 +178,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #projects-plot {
-  width: min(40vw, 200px);
-  height: auto;
-  aspect-ratio: 1 / 1;
+  width: 200px;
+  height: 200px;
 }
