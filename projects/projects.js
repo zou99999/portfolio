@@ -11,6 +11,8 @@ if (projectsTitle) {
 }
 
 
+drawPieChart(projects);
+
 export function drawPieChart(projects) {
   // Step 3: Prepare data
   const rolledData = d3.rollups(
