@@ -138,8 +138,10 @@ projects.forEach((project) => {
   article.innerHTML = `
     <${headingLevel}>${project.title}</${headingLevel}>
     <img src="${project.image}" alt="${project.title}">
+    <div class="desc-year-wrapper">
     <p>${project.description}</p>
-    <p>${project.year}</p>
+    <p class="project-year">${project.year}</p>
+    </div>
   `;
   containerElement.appendChild(article);
 });
