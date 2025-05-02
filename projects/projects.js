@@ -11,7 +11,7 @@ if (projectsTitle) {
 }
 
 
-
+drawPieChart();
 
 export function drawPieChart() {
   // Step 3: Prepare data
