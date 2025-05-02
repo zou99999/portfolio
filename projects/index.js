@@ -1,24 +1,20 @@
 import { fetchJSON, renderProjects, fetchGitHubData } from '/portfolio/global.js';
 import { drawPieChart } from './projects.js';
 
-const allProjects = await fetchJSON('/portfolio/lib/projects.json');
-const latestProjects = allProjects.slice(0, 3);
-const projectsContainer = document.querySelector('.projects');
-renderProjects(latestProjects, projectsContainer, 'h2');
-
-
-const githubData = await fetchGitHubData('zou99999'); // ← replace with your GitHub username
-
-// Target the stats container
-const profileStats = document.querySelector('#profile-stats');
-
+// ✅ Fetch all projects
 const projects = await fetchJSON('/portfolio/lib/projects.json');
-const container = document.querySelector('.projects-list');
 
-// Call the chart!
+// ✅ Render all projects
+const container = document.querySelector('.projects-list');
+renderProjects(projects, container, 'h2');
+
+// ✅ Draw the pie chart
 drawPieChart(projects);
 
-// Render GitHub stats if the container exists
+// ✅ GitHub stats
+const githubData = await fetchGitHubData('zou99999');
+const profileStats = document.querySelector('#profile-stats');
+
 if (profileStats && githubData) {
   profileStats.innerHTML = `
     <h2>GitHub Stats</h2>
