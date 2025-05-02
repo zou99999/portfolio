@@ -11,29 +11,43 @@ if (projectsTitle) {
 }
 
 
-const arcGenerator = d3.arc().innerRadius(0).outerRadius(50);
 
-// Step 3: Prepare data
-const data = [1, 2, 3, 4, 5, 5];
 
-// Step 4: Generate slice angles using d3.pie()
-const sliceGenerator = d3.pie();
-const arcData = sliceGenerator(data);
+export function drawPieChart() {
+  // Step 3: Prepare data
+  let data = [
+    { value: 1, label: 'apples' },
+    { value: 2, label: 'oranges' },
+    { value: 3, label: 'mangos' },
+    { value: 4, label: 'pears' },
+    { value: 5, label: 'limes' },
+    { value: 5, label: 'cherries' },
+  ];
 
-// Step 5: Map arcData into SVG path strings
-const arcs = arcData.map((d) => arcGenerator(d));
+  const arcGenerator = d3.arc().innerRadius(0).outerRadius(50);
+  const sliceGenerator = d3.pie().value((d) => d.value);
+  const arcData = sliceGenerator(data);
+  const colors = d3.scaleOrdinal(d3.schemeTableau10);
 
-// Step 6: Create color scale
-const colors = d3.scaleOrdinal(d3.schemeTableau10);
+  const svg = d3
+    .select('#projects-plot')
+    .attr('viewBox', '-50 -50 100 100');
 
-// Step 7: Draw SVG and append paths
-const svg = d3
-  .select('#projects-plot') // make sure your HTML has <svg id="projects-plot">
-  .attr('viewBox', '-50 -50 100 100');
-
-arcs.forEach((arc, idx) => {
-  svg
+  // Draw the pie slices
+  svg.selectAll('path')
+    .data(arcData)
+    .enter()
     .append('path')
-    .attr('d', arc)
-    .attr('fill', colors(idx));
-});
+    .attr('d', arcGenerator)
+    .attr('fill', (d, i) => colors(i));
+
+  // Create the legend
+  let legend = d3.select('.legend');
+  data.forEach((d, idx) => {
+    legend
+      .append('li')
+      .attr('style', `--color:${colors(idx)}`)
+      .attr('class', 'legend-item')
+      .html(`<span class="swatch"></span> ${d.label} <em>(${d.value})</em>`);
+  })
+};
