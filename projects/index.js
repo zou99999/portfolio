@@ -16,7 +16,7 @@ const projects = await fetchJSON('/portfolio/lib/projects.json');
 const container = document.querySelector('.projects-list');
 
 // Call the chart!
-drawPieChart();
+drawPieChart(projects);
 
 // Render GitHub stats if the container exists
 if (profileStats && githubData) {

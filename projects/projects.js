@@ -11,18 +11,17 @@ if (projectsTitle) {
 }
 
 
-drawPieChart();
-
-export function drawPieChart() {
+export function drawPieChart(projects) {
   // Step 3: Prepare data
-  let data = [
-    { value: 1, label: 'apples' },
-    { value: 2, label: 'oranges' },
-    { value: 3, label: 'mangos' },
-    { value: 4, label: 'pears' },
-    { value: 5, label: 'limes' },
-    { value: 5, label: 'cherries' },
-  ];
+  const rolledData = d3.rollups(
+    projects,
+    (v) => v.length,
+    (d) => d.year
+  );
+
+  const data = rolledData.map(([year, count]) => {
+    return { value: count, label: year };
+  });
 
   const arcGenerator = d3.arc().innerRadius(0).outerRadius(50);
   const sliceGenerator = d3.pie().value((d) => d.value);
