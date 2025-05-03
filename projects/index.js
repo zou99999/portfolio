@@ -4,6 +4,7 @@ import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm';
 const allProjects = await fetchJSON('/portfolio/lib/projects.json');
 let query = '';
 let selectedIndex = -1;
+let currentPieData = [];
 
 const projectsContainer = document.querySelector('.projects');
 const searchInput = document.querySelector('.searchBar');
@@ -29,19 +30,11 @@ function applyFilters() {
   }
 
   // 2. Pie chart (year) filter
-  if (selectedIndex !== -1) {
-    const rolledData = d3.rollups(
-      allProjects,
-      (v) => v.length,
-      (d) => d.year
-    );
-    const data = rolledData.map(([year, count]) => ({
-      value: count,
-      label: year
-    }));
-    const selectedYear = data[selectedIndex].label;
+  if (selectedIndex !== -1 && currentPieData.length > selectedIndex) {
+    const selectedYear = currentPieData[selectedIndex].label;
     filtered = filtered.filter((p) => p.year === selectedYear);
   }
+  
 
   renderProjects(filtered, projectsContainer, 'h2');
   renderPieChart(filtered);
@@ -65,6 +58,8 @@ function renderPieChart(projectsGiven) {
     value: count,
     label: year
   }));
+  currentPieData = data; // <- store for access in applyFilters()
+  
 
   const arcGenerator = d3.arc().innerRadius(0).outerRadius(50);
   const sliceGenerator = d3.pie().value((d) => d.value);
