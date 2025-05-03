@@ -22,6 +22,9 @@ searchInput.addEventListener('input', (event) => {
 function applyFilters() {
   let filtered = allProjects;
 
+  console.log("▶ selectedIndex =", selectedIndex);
+  console.log("▶ currentPieData =", currentPieData);
+
   // 1. Search filter
   if (query !== '') {
     filtered = filtered.filter((project) => {
@@ -33,9 +36,11 @@ function applyFilters() {
   // 2. Year (pie chart) filter
   if (selectedIndex !== -1 && currentPieData[selectedIndex]) {
     const selectedYear = currentPieData[selectedIndex].label;
+    console.log("▶ Filtering by year:", selectedYear);
     filtered = filtered.filter((p) => String(p.year) === String(selectedYear));
   }
 
+  console.log("▶ Final project count:", filtered.length);
   renderProjects(filtered, projectsContainer, 'h2');
   renderPieChart(filtered);
 }
@@ -54,16 +59,11 @@ function renderPieChart(projectsGiven) {
     (d) => d.year
   );
 
-  let data = rolledData.map(([year, count]) => ({
+  const data = rolledData.map(([year, count]) => ({
     value: count,
     label: year
   }));
-  currentPieData = data;
-
-  // ✅ Add dummy slice to avoid full circle
-  if (data.length === 1) {
-    data.push({ label: '__invisible__', value: 0.0001 });
-  }
+  currentPieData = data; // ✅ store for access in applyFilters()
 
   const arcGenerator = d3.arc().innerRadius(0).outerRadius(50);
   const sliceGenerator = d3.pie().value((d) => d.value);
@@ -76,7 +76,6 @@ function renderPieChart(projectsGiven) {
     .data(arcData)
     .enter()
     .append('path')
-    .filter((d) => d.data.label !== '__invisible__') // ✅ skip dummy
     .attr('d', arcGenerator)
     .attr('fill', (_, i) => colors(i))
     .attr('class', (_, i) => (i === selectedIndex ? 'selected' : ''))
@@ -89,7 +88,7 @@ function renderPieChart(projectsGiven) {
   // Legend
   legend
     .selectAll('li')
-    .data(data.filter((d) => d.label !== '__invisible__')) // ✅ no dummy in legend
+    .data(data)
     .enter()
     .append('li')
     .attr('style', (_, i) => `--color:${colors(i)}`)
