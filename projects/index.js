@@ -24,12 +24,15 @@ searchInput.addEventListener('input', (event) => {
 });
 
 // Refactor pie chart rendering into a reusable function
-function renderPieChart(projectsGiven) {
-  // Clear existing paths and legends
-  d3.select('#projects-plot').selectAll('path').remove();
-  d3.select('.legend').selectAll('li').remove();
+let selectedIndex = -1; // globally track selection
 
-  // Roll and prepare data
+function renderPieChart(projectsGiven) {
+  const svg = d3.select('#projects-plot');
+  svg.selectAll('path').remove();
+
+  const legend = d3.select('.legend');
+  legend.selectAll('li').remove();
+
   const rolledData = d3.rollups(
     projectsGiven,
     (v) => v.length,
@@ -46,22 +49,62 @@ function renderPieChart(projectsGiven) {
   const arcData = sliceGenerator(data);
   const colors = d3.scaleOrdinal(d3.schemeTableau10);
 
-  const svg = d3.select('#projects-plot');
-
+  // Draw pie wedges
   svg
     .selectAll('path')
     .data(arcData)
     .enter()
     .append('path')
     .attr('d', arcGenerator)
-    .attr('fill', (_, i) => colors(i));
+    .attr('fill', (_, i) => colors(i))
+    .attr('class', (_, i) => (i === selectedIndex ? 'selected' : ''))
+    .on('click', (_, i) => {
+      selectedIndex = selectedIndex === i ? -1 : i;
 
-  const legend = d3.select('.legend');
-  data.forEach((d, i) => {
-    legend
-      .append('li')
-      .attr('style', `--color:${colors(i)}`)
-      .attr('class', 'legend-item')
-      .html(`<span class="swatch"></span> ${d.label} <em>(${d.value})</em>`);
-  });
+      svg.selectAll('path')
+        .attr('class', (_, idx) => (idx === selectedIndex ? 'selected' : ''));
+
+      legend.selectAll('li')
+        .attr('class', (_, idx) => (
+          idx === selectedIndex ? 'legend-item selected' : 'legend-item'
+        ));
+
+      if (selectedIndex === -1) {
+        renderProjects(projectsGiven, projectsContainer, 'h2');
+      } else {
+        const selectedYear = data[selectedIndex].label;
+        const filtered = projectsGiven.filter((p) => p.year === selectedYear);
+        renderProjects(filtered, projectsContainer, 'h2');
+      }
+    });
+
+  // Draw legend
+  legend
+    .selectAll('li')
+    .data(data)
+    .enter()
+    .append('li')
+    .attr('style', (_, i) => `--color:${colors(i)}`)
+    .attr('class', (_, i) => (i === selectedIndex ? 'legend-item selected' : 'legend-item'))
+    .html((d) => `<span class="swatch"></span> ${d.label} <em>(${d.value})</em>`)
+    .on('click', (_, i) => {
+      selectedIndex = selectedIndex === i ? -1 : i;
+
+      svg.selectAll('path')
+        .attr('class', (_, idx) => (idx === selectedIndex ? 'selected' : ''));
+
+      legend.selectAll('li')
+        .attr('class', (_, idx) => (
+          idx === selectedIndex ? 'legend-item selected' : 'legend-item'
+        ));
+
+      if (selectedIndex === -1) {
+        renderProjects(projectsGiven, projectsContainer, 'h2');
+      } else {
+        const selectedYear = data[selectedIndex].label;
+        const filtered = projectsGiven.filter((p) => p.year === selectedYear);
+        renderProjects(filtered, projectsContainer, 'h2');
+      }
+    });
 }
+

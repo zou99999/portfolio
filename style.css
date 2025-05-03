@@ -191,3 +191,26 @@ h1, h2, h3, h4, h5, h6 {
   box-sizing: border-box;
   margin-block: 1em;
 }
+
+svg:has(path:hover) path:not(:hover) {
+  opacity: 0.5;
+}
+
+path {
+  transition: 300ms;
+  cursor: pointer;
+}
+
+/* Selected wedge and legend */
+.selected {
+  --color: oklch(60% 45% 0) !important;
+}
+
+.selected:is(path) {
+  fill: var(--color);
+}
+
+.selected:is(li) {
+  font-weight: bold;
+  opacity: 1 !important;
+}
