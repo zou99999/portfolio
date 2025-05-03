@@ -50,8 +50,8 @@ function renderPieChart(projectsGiven) {
 
   const rolledData = d3.rollups(
     projectsGiven,
-    (v) => v.length,
-    (d) => d.year
+    v => v.length,
+    d => d.year
   );
 
   const data = rolledData.map(([year, count]) => ({
@@ -60,42 +60,38 @@ function renderPieChart(projectsGiven) {
   }));
   currentPieData = data;
 
-  // Create dummy entry if only one wedge
-  let dataToDraw = data.length === 1
+  // 🔧 Add dummy slice if only 1 real slice exists
+  let displayData = data.length === 1
     ? [...data, { value: 0.0001, label: '__dummy__' }]
     : data;
 
   const arcGenerator = d3.arc().innerRadius(0).outerRadius(50);
   const sliceGenerator = d3.pie().value(d => d.value);
-  const arcData = sliceGenerator(dataToDraw);
+  const arcData = sliceGenerator(displayData);
   const colors = d3.scaleOrdinal(d3.schemeTableau10);
 
-  // Draw pie wedges
+  // 🟠 Pie wedges
   svg.selectAll('path')
     .data(arcData)
     .enter()
     .append('path')
     .attr('d', arcGenerator)
-    .attr('fill', (d, i) =>
-      d.data.label === '__dummy__' ? 'transparent' : colors(i)
-    )
+    .attr('fill', (d, i) => d.data.label === '__dummy__' ? 'transparent' : colors(i))
     .attr('class', (d, i) =>
       d.data.label === '__dummy__' ? '' :
       (i === selectedIndex ? 'selected' : '')
     )
-    .style('cursor', (d) =>
-      d.data.label === '__dummy__' ? 'default' : 'pointer'
-    )
+    .style('cursor', d => d.data.label === '__dummy__' ? 'default' : 'pointer')
     .on('click', function (event, d) {
       if (d.data.label === '__dummy__') return;
-      const index = arcData.indexOf(d);
-      selectedIndex = selectedIndex === index ? -1 : index;
+      const realIndex = data.findIndex(p => p.label === d.data.label);
+      selectedIndex = selectedIndex === realIndex ? -1 : realIndex;
       applyFilters();
     });
 
-  // Legend (exclude dummy)
+  // 🟢 Legend
   legend.selectAll('li')
-    .data(data)
+    .data(data) // only real slices
     .enter()
     .append('li')
     .attr('style', (_, i) => `--color:${colors(i)}`)
@@ -103,8 +99,8 @@ function renderPieChart(projectsGiven) {
       i === selectedIndex ? 'legend-item selected' : 'legend-item'
     )
     .html(d => `<span class="swatch"></span> ${d.label} <em>(${d.value})</em>`)
-    .on('click', function (_, d) {
-      const index = data.findIndex(e => e.label === d.label);
+    .on('click', (_, d) => {
+      const index = data.findIndex(p => p.label === d.label);
       selectedIndex = selectedIndex === index ? -1 : index;
       applyFilters();
     });
