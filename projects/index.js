@@ -58,46 +58,53 @@ function renderPieChart(projectsGiven) {
     value: count,
     label: year
   }));
-
   currentPieData = data;
 
-  let dataToDraw = data;
-  if (data.length === 1) {
-    dataToDraw = [...data, { label: '__dummy__', value: 0.0001 }];
-  }
+  // Create dummy entry if only one wedge
+  let dataToDraw = data.length === 1
+    ? [...data, { value: 0.0001, label: '__dummy__' }]
+    : data;
 
   const arcGenerator = d3.arc().innerRadius(0).outerRadius(50);
-  const sliceGenerator = d3.pie().value((d) => d.value);
+  const sliceGenerator = d3.pie().value(d => d.value);
   const arcData = sliceGenerator(dataToDraw);
   const colors = d3.scaleOrdinal(d3.schemeTableau10);
 
-  // Pie wedges
-  svg
-    .selectAll('path')
+  // Draw pie wedges
+  svg.selectAll('path')
     .data(arcData)
     .enter()
     .append('path')
     .attr('d', arcGenerator)
-    .attr('fill', (d, i) => d.data.label === '__dummy__' ? 'transparent' : colors(i))
-    .attr('class', (d, i) => (i === selectedIndex ? 'selected' : ''))
-    .style('cursor', 'pointer')
-    .on('click', function (_, d) {
-      const index = d3.select(this).datum().index;
+    .attr('fill', (d, i) =>
+      d.data.label === '__dummy__' ? 'transparent' : colors(i)
+    )
+    .attr('class', (d, i) =>
+      d.data.label === '__dummy__' ? '' :
+      (i === selectedIndex ? 'selected' : '')
+    )
+    .style('cursor', (d) =>
+      d.data.label === '__dummy__' ? 'default' : 'pointer'
+    )
+    .on('click', function (event, d) {
+      if (d.data.label === '__dummy__') return;
+      const index = arcData.indexOf(d);
       selectedIndex = selectedIndex === index ? -1 : index;
       applyFilters();
     });
 
-  // Legend
-  legend
-    .selectAll('li')
-    .data(data.filter(d => d.label !== '__dummy__'))
+  // Legend (exclude dummy)
+  legend.selectAll('li')
+    .data(data)
     .enter()
     .append('li')
     .attr('style', (_, i) => `--color:${colors(i)}`)
-    .attr('class', (_, i) => (i === selectedIndex ? 'legend-item selected' : 'legend-item'))
-    .html((d) => `<span class=\"swatch\"></span> ${d.label} <em>(${d.value})</em>`)
+    .attr('class', (_, i) =>
+      i === selectedIndex ? 'legend-item selected' : 'legend-item'
+    )
+    .html(d => `<span class="swatch"></span> ${d.label} <em>(${d.value})</em>`)
     .on('click', function (_, d) {
-      const index = d3.select(this).datum().index;
+      const index = data.findIndex(e => e.label === d.label);
       selectedIndex = selectedIndex === index ? -1 : index;
       applyFilters();
     });
