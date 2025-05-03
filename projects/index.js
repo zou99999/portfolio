@@ -22,10 +22,7 @@ searchInput.addEventListener('input', (event) => {
 function applyFilters() {
   let filtered = allProjects;
 
-  console.log("▶ selectedIndex =", selectedIndex);
-  console.log("▶ currentPieData =", currentPieData);
-
-  // 1. Search filter
+  // Search filter
   if (query !== '') {
     filtered = filtered.filter((project) => {
       const values = Object.values(project).join('\n').toLowerCase();
@@ -33,14 +30,12 @@ function applyFilters() {
     });
   }
 
-  // 2. Year (pie chart) filter
+  // Year filter
   if (selectedIndex !== -1 && currentPieData[selectedIndex]) {
     const selectedYear = currentPieData[selectedIndex].label;
-    console.log("▶ Filtering by year:", selectedYear);
     filtered = filtered.filter((p) => String(p.year) === String(selectedYear));
   }
 
-  console.log("▶ Final project count:", filtered.length);
   renderProjects(filtered, projectsContainer, 'h2');
   renderPieChart(filtered);
 }
@@ -63,11 +58,17 @@ function renderPieChart(projectsGiven) {
     value: count,
     label: year
   }));
-  currentPieData = data; // ✅ store for access in applyFilters()
+
+  currentPieData = data;
+
+  let dataToDraw = data;
+  if (data.length === 1) {
+    dataToDraw = [...data, { label: '__dummy__', value: 0.0001 }];
+  }
 
   const arcGenerator = d3.arc().innerRadius(0).outerRadius(50);
   const sliceGenerator = d3.pie().value((d) => d.value);
-  const arcData = sliceGenerator(data);
+  const arcData = sliceGenerator(dataToDraw);
   const colors = d3.scaleOrdinal(d3.schemeTableau10);
 
   // Pie wedges
@@ -77,8 +78,9 @@ function renderPieChart(projectsGiven) {
     .enter()
     .append('path')
     .attr('d', arcGenerator)
-    .attr('fill', (_, i) => colors(i))
-    .attr('class', (_, i) => (i === selectedIndex ? 'selected' : ''))
+    .attr('fill', (d, i) => d.data.label === '__dummy__' ? 'transparent' : colors(i))
+    .attr('class', (d, i) => (i === selectedIndex ? 'selected' : ''))
+    .style('cursor', 'pointer')
     .on('click', function (_, d) {
       const index = d3.select(this).datum().index;
       selectedIndex = selectedIndex === index ? -1 : index;
@@ -88,12 +90,12 @@ function renderPieChart(projectsGiven) {
   // Legend
   legend
     .selectAll('li')
-    .data(data)
+    .data(data.filter(d => d.label !== '__dummy__'))
     .enter()
     .append('li')
     .attr('style', (_, i) => `--color:${colors(i)}`)
     .attr('class', (_, i) => (i === selectedIndex ? 'legend-item selected' : 'legend-item'))
-    .html((d) => `<span class="swatch"></span> ${d.label} <em>(${d.value})</em>`)
+    .html((d) => `<span class=\"swatch\"></span> ${d.label} <em>(${d.value})</em>`)
     .on('click', function (_, d) {
       const index = d3.select(this).datum().index;
       selectedIndex = selectedIndex === index ? -1 : index;
