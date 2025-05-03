@@ -22,7 +22,7 @@ searchInput.addEventListener('input', (event) => {
 function applyFilters() {
   let filtered = allProjects;
 
-  // Search filter
+  // 1. Search filter
   if (query !== '') {
     filtered = filtered.filter((project) => {
       const values = Object.values(project).join('\n').toLowerCase();
@@ -30,15 +30,18 @@ function applyFilters() {
     });
   }
 
-  // Year filter
+  // 2. Year (pie chart) filter
   if (selectedIndex !== -1 && currentPieData[selectedIndex]) {
     const selectedYear = currentPieData[selectedIndex].label;
     filtered = filtered.filter((p) => String(p.year) === String(selectedYear));
   }
 
   renderProjects(filtered, projectsContainer, 'h2');
-  renderPieChart(filtered);
+
+  // 🟠 Important: always re-draw pie from allProjects, not filtered
+  renderPieChart(allProjects); // ✅ this ensures all wedges show up
 }
+
 
 // Pie chart renderer
 function renderPieChart(projectsGiven) {
