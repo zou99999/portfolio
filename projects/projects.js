@@ -22,6 +22,9 @@ searchInput.addEventListener('input', (event) => {
 function applyFilters() {
   let filtered = allProjects;
 
+  console.log("▶ selectedIndex =", selectedIndex);
+  console.log("▶ currentPieData =", currentPieData);
+  
   // 1. Search filter
   if (query !== '') {
     filtered = filtered.filter((project) => {
