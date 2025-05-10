@@ -182,6 +182,10 @@ function renderCommitInfo(data, commits) {
     .on('mouseleave', () => {
         updateTooltipVisibility(false);
     });
+
+    createBrushSelector(svg);
+    svg.selectAll('.dots, .overlay ~ *').raise();
+
   }
 
   function renderTooltipContent(commit) {
@@ -226,6 +230,71 @@ function renderCommitInfo(data, commits) {
     const tooltip = document.getElementById('commit-tooltip');
     tooltip.style.left = `${event.clientX}px`;
     tooltip.style.top = `${event.clientY}px`;
+  }
+
+  function isCommitSelected(selection, commit) {
+    if (!selection) return false;
+  
+    const [[x0, y0], [x1, y1]] = selection;
+    const x = xScale(commit.datetime);
+    const y = yScale(commit.hourFrac);
+  
+    return x0 <= x && x <= x1 && y0 <= y && y <= y1;
+  }
+  
+  function renderSelectionCount(selection) {
+    const selectedCommits = selection
+      ? commits.filter((d) => isCommitSelected(selection, d))
+      : [];
+  
+    const countElement = document.querySelector('#selection-count');
+    countElement.textContent = `${
+      selectedCommits.length || 'No'
+    } commits selected`;
+  }
+  
+  function renderLanguageBreakdown(selection) {
+    const selectedCommits = selection
+      ? commits.filter((d) => isCommitSelected(selection, d))
+      : [];
+  
+    const container = document.getElementById('language-breakdown');
+    container.innerHTML = '';
+  
+    if (selectedCommits.length === 0) return;
+  
+    const lines = selectedCommits.flatMap((d) => d.lines);
+  
+    const breakdown = d3.rollup(
+      lines,
+      (v) => v.length,
+      (d) => d.type
+    );
+  
+    for (const [language, count] of breakdown) {
+      const proportion = count / lines.length;
+      const formatted = d3.format('.1~%')(proportion);
+  
+      container.innerHTML += `
+        <dt>${language}</dt>
+        <dd>${count} lines (${formatted})</dd>
+      `;
+    }
+  }
+  
+  function brushed(event) {
+    const selection = event.selection;
+  
+    d3.selectAll('circle').classed('selected', (d) =>
+      isCommitSelected(selection, d)
+    );
+  
+    renderSelectionCount(selection);
+    renderLanguageBreakdown(selection);
+  }
+  
+  function createBrushSelector(svg) {
+    svg.call(d3.brush().on('start brush end', brushed));
   }
   
   
