@@ -271,10 +271,17 @@ dl.info[hidden]:not(:hover, :focus-within) {
 
 .tooltip {
   position: fixed;
-  top: 1em;
-  left: 1em;
+  top: 0;
+  left: 0;
   pointer-events: none;
   z-index: 1000;
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  backdrop-filter: blur(4px);
+  transition-duration: 500ms;
+  transition-property: opacity, visibility;
 }
 
 circle {
