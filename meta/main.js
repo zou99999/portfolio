@@ -205,6 +205,7 @@ function renderCommitInfo(data, commits) {
   
     author.textContent = commit.author;
     lines.textContent = commit.totalLines;
+    console.log('Hovered commit:', commit);
   }
   
 
