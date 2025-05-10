@@ -1,4 +1,5 @@
 import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm';
+let xScale, yScale;
 
 async function loadData() {
   const data = await d3.csv('loc.csv', (row) => ({
@@ -117,16 +118,16 @@ function renderCommitInfo(data, commits) {
     };
   
     // Scales
-    const xScale = d3
-      .scaleTime()
-      .domain(d3.extent(commits, (d) => d.datetime))
-      .range([usableArea.left, usableArea.right])
-      .nice();
-  
-    const yScale = d3
-      .scaleLinear()
-      .domain([0, 24])
-      .range([usableArea.bottom, usableArea.top]);
+    xScale = d3
+    .scaleTime()
+    .domain(d3.extent(commits, (d) => d.datetime))
+    .range([usableArea.left, usableArea.right])
+    .nice();
+
+    yScale = d3
+    .scaleLinear()
+    .domain([0, 24])
+    .range([usableArea.bottom, usableArea.top]);
 
     const [minLines, maxLines] = d3.extent(commits, (d) => d.totalLines);
     const rScale = d3
@@ -303,6 +304,5 @@ function renderCommitInfo(data, commits) {
   
   renderScatterPlot(data, commits);
   renderCommitInfo(data, commits);
-  console.log(commits);
 
   
