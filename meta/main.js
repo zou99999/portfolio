@@ -44,5 +44,56 @@ function processCommits(data) {
     });
 }
   
+function renderCommitInfo(data, commits) {
+    // Create the dl element
+    const dl = d3.select('#stats').append('dl').attr('class', 'stats');
+  
+    // Total lines of code
+    dl.append('dt').html('Total <abbr title="Lines of code">LOC</abbr>');
+    dl.append('dd').text(data.length);
+  
+    // Total commits
+    dl.append('dt').text('Total commits');
+    dl.append('dd').text(commits.length);
+  
+    // Number of files in the codebase
+    const numFiles = d3.groups(data, d => d.file).length;
+    dl.append('dt').text('Number of files');
+    dl.append('dd').text(numFiles);
+  
+    // Maximum file length (in lines)
+    const fileLengths = d3.rollups(
+      data,
+      v => d3.max(v, d => d.line),
+      d => d.file
+    );
+    const maxFileLength = d3.max(fileLengths, d => d[1]);
+    dl.append('dt').text('Maximum file length (in lines)');
+    dl.append('dd').text(maxFileLength);
+  
+    // Longest file (by length in lines)
+    const longestFile = d3.greatest(fileLengths, d => d[1])?.[0];
+    dl.append('dt').text('Longest file');
+    dl.append('dd').text(longestFile);
+  
+    // Average file length (in lines)
+    const avgFileLength = d3.mean(fileLengths, d => d[1]);
+    dl.append('dt').text('Average file length (in lines)');
+    dl.append('dd').text(avgFileLength.toFixed(2));
+  
+    // Time of day with most work
+    const workByPeriod = d3.rollups(
+      data,
+      v => v.length,
+      d => new Date(d.datetime).toLocaleString('en', { dayPeriod: 'short' })
+    );
+    const maxPeriod = d3.greatest(workByPeriod, d => d[1])?.[0];
+    dl.append('dt').text('Most active time of day');
+    dl.append('dd').text(maxPeriod.charAt(0).toUpperCase() + maxPeriod.slice(1));
+  }
+  
+
   let data = await loadData();
   let commits = processCommits(data);
+  renderCommitInfo(data, commits);
+  console.log(commits);

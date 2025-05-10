@@ -214,3 +214,25 @@ path {
   font-weight: bold;
   opacity: 1 !important;
 }
+
+.stats dl {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.5rem 1rem;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  background-color: #f9f9f9;
+  max-width: 500px;
+  font-family: sans-serif;
+  margin-top: 1rem;
+}
+
+.stats dt {
+  font-weight: bold;
+  text-align: right;
+}
+
+.stats dd {
+  margin: 0;
+}
