@@ -127,6 +127,15 @@ function renderCommitInfo(data, commits) {
       .scaleLinear()
       .domain([0, 24])
       .range([usableArea.bottom, usableArea.top]);
+
+    const [minLines, maxLines] = d3.extent(commits, (d) => d.totalLines);
+    const rScale = d3
+        .scaleSqrt() // ✅ Step 4.2: Fixing area perception
+        .domain([minLines, maxLines])
+        .range([2, 30]);
+    
+    const sortedCommits = d3.sort(commits, (d) => -d.totalLines);
+
   
     // Step 2.3: Adding horizontal grid lines (draw BEFORE axes)
     const gridlines = svg
@@ -163,7 +172,7 @@ function renderCommitInfo(data, commits) {
     .join('circle')
     .attr('cx', (d) => xScale(d.datetime))
     .attr('cy', (d) => yScale(d.hourFrac))
-    .attr('r', 5)
+    .attr('r', (d) => rScale(d.totalLines)) // Step 4.2: Fixing area perception
     .attr('fill', 'steelblue')
     .on('mouseenter', (event, commit) => {
         renderTooltipContent(commit);
@@ -205,7 +214,6 @@ function renderCommitInfo(data, commits) {
   
     author.textContent = commit.author;
     lines.textContent = commit.totalLines;
-    console.log('Hovered commit:', commit);
   }
   
 
