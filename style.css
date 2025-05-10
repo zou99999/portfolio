@@ -236,3 +236,13 @@ path {
 .stats dd {
   margin: 0;
 }
+
+.gridlines line {
+  stroke: #ccc;
+  stroke-opacity: 0.5;
+  shape-rendering: crispEdges;
+}
+
+.gridlines path {
+  display: none;
+}
