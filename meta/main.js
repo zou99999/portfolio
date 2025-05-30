@@ -305,4 +305,31 @@ function renderCommitInfo(data, commits) {
   renderScatterPlot(data, commits);
   renderCommitInfo(data, commits);
 
+
+let commitProgress = 100;
+
+let timeScale = d3
+  .scaleTime()
+  .domain(d3.extent(commits, (d) => d.datetime))
+  .range([0, 100]);
+
+let commitMaxTime = timeScale.invert(commitProgress);
+
+function onTimeSliderChange() {
+  commitProgress = +document.getElementById("commit-progress").value;
+  commitMaxTime = timeScale.invert(commitProgress);
+
+  // Update time label
+  document.getElementById("commit-slider-time").textContent =
+    commitMaxTime.toLocaleString(undefined, {
+      dateStyle: "long",
+      timeStyle: "short",
+    });
+
+}
+
+document.getElementById("commit-progress").addEventListener("input", onTimeSliderChange);
+
+onTimeSliderChange();
+
   
