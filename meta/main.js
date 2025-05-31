@@ -330,7 +330,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       commitProgress = +document.getElementById("commit-progress").value;
       commitMaxTime = timeScale.invert(commitProgress);
   
-      document.getElementById("commit-slider-time").textContent = commitMaxTime.toLocaleString(undefined, {
+      document.getElementById("commit-time").textContent = commitMaxTime.toLocaleString(undefined, {
         dateStyle: "long",
         timeStyle: "short",
       });
