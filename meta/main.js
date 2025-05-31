@@ -305,6 +305,7 @@ function renderCommitInfo(data, commits) {
   renderScatterPlot(data, commits);
   renderCommitInfo(data, commits);
 
+
 document.addEventListener("DOMContentLoaded", async () => {
     let data = await loadData();
     let commits = processCommits(data);
@@ -329,7 +330,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       commitProgress = +document.getElementById("commit-progress").value;
       commitMaxTime = timeScale.invert(commitProgress);
   
-      document.getElementById("commit-time").textContent = commitMaxTime.toLocaleString(undefined, {
+      document.getElementById("commit-slider-time").textContent = commitMaxTime.toLocaleString(undefined, {
         dateStyle: "long",
         timeStyle: "short",
       });
