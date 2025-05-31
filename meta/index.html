@@ -10,17 +10,19 @@
 
   <h1>Meta</h1>
 
+  <!-- Filtering UI with date on the right -->
+  <div style="display: flex; align-items: center; margin-bottom: 1em; width: 100%;">
+  <label style="flex: 1;">
+    Show commits until:
+    <input type="range" id="commit-progress" min="0" max="100" value="100" style="width: 100%;">
+  </label>
+  <time id="commit-slider-time" style="margin-left: 1em; white-space: nowrap;"></time>
+  </div>
+
+
   <h2>Commits by time of day</h2>
   <div id="chart"></div>
 
-  <!-- Filtering UI -->
-  <div style="display: flex; align-items: baseline; margin-bottom: 1em;">
-    <label style="flex: 1;">
-      Show commits until:
-      <input type="range" id="commit-progress" min="0" max="100" value="100">
-    </label>
-    <time id="commit-time" style="margin-left: auto;"></time>
-  </div>
 
 
   <div id="stats" class="stats"></div>
