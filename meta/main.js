@@ -240,6 +240,32 @@ function renderCommitInfo(data, commits) {
         updateTooltipVisibility(false);
       });
   }
+
+  function updateFileDisplay(filteredCommits) {
+    // Flatten lines across all filtered commits
+    let lines = filteredCommits.flatMap((d) => d.lines);
+  
+    // Group by file
+    let files = d3.groups(lines, (d) => d.file).map(([name, lines]) => ({ name, lines }));
+  
+    // Bind to DOM
+    let filesContainer = d3
+      .select('#files')
+      .selectAll('div')
+      .data(files, (d) => d.name)
+      .join(
+        (enter) =>
+          enter.append('div').call((div) => {
+            div.append('dt').append('code');
+            div.append('dd');
+          })
+      );
+  
+    // Update file name and line count
+    filesContainer.select('dt > code').text((d) => d.name);
+    filesContainer.select('dd').text((d) => `${d.lines.length} lines`);
+  }
+  
   
 
   function renderTooltipContent(commit) {
@@ -380,9 +406,10 @@ function renderCommitInfo(data, commits) {
       timeStyle: "short",
     });
   
-    // ✅ Filter and update
+    // Filter and update
     const filteredCommits = commits.filter((d) => d.datetime <= commitMaxTime);
     updateScatterPlot(data, filteredCommits);
+    updateFileDisplay(filteredCommits);
   }
   
   
