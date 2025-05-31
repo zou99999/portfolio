@@ -242,29 +242,35 @@ function renderCommitInfo(data, commits) {
   }
 
   function updateFileDisplay(filteredCommits) {
-    // Flatten lines across all filtered commits
-    let lines = filteredCommits.flatMap((d) => d.lines);
+    const lines = filteredCommits.flatMap((d) => d.lines);
+    const files = d3.groups(lines, (d) => d.file).map(([name, lines]) => ({ name, lines }));
   
-    // Group by file
-    let files = d3.groups(lines, (d) => d.file).map(([name, lines]) => ({ name, lines }));
-  
-    // Bind to DOM
-    let filesContainer = d3
+    const filesContainer = d3
       .select('#files')
       .selectAll('div')
       .data(files, (d) => d.name)
       .join(
         (enter) =>
           enter.append('div').call((div) => {
-            div.append('dt').append('code');
+            div.append('dt');
             div.append('dd');
           })
       );
   
-    // Update file name and line count
-    filesContainer.select('dt > code').text((d) => d.name);
-    filesContainer.select('dd').text((d) => `${d.lines.length} lines`);
+    // Filename and count in <dt>
+    filesContainer.select('dt').html(
+      (d) => `<code>${d.name}</code><small>${d.lines.length} lines</small>`
+    );
+  
+    // Per-line <div class="loc">
+    filesContainer
+      .select('dd')
+      .selectAll('div')
+      .data((d) => d.lines)
+      .join('div')
+      .attr('class', 'loc');
   }
+  
   
   
 
