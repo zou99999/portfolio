@@ -306,38 +306,28 @@ function renderCommitInfo(data, commits) {
   renderCommitInfo(data, commits);
 
 
-document.addEventListener("DOMContentLoaded", async () => {
-    let data = await loadData();
-    let commits = processCommits(data);
+  let commitProgress = 100;
+
+  let timeScale = d3
+    .scaleTime()
+    .domain([
+      d3.min(commits, (d) => d.datetime),
+      d3.max(commits, (d) => d.datetime),
+    ])
+    .range([0, 100]);
   
-    renderScatterPlot(data, commits);
-    renderCommitInfo(data, commits);
+  let commitMaxTime = timeScale.invert(commitProgress);
   
-    // Step 1.1: Creating the filtering UI
-    let commitProgress = 100;
+  function onTimeSliderChange() {
+    commitProgress = +document.getElementById("commit-progress").value;
+    commitMaxTime = timeScale.invert(commitProgress);
   
-    let timeScale = d3
-      .scaleTime()
-      .domain([
-        d3.min(commits, (d) => d.datetime),
-        d3.max(commits, (d) => d.datetime),
-      ])
-      .range([0, 100]);
+    document.getElementById("commit-slider-time").textContent = commitMaxTime.toLocaleString(undefined, {
+      dateStyle: "long",
+      timeStyle: "short",
+    });
+  }
   
-    let commitMaxTime = timeScale.invert(commitProgress);
-  
-    function onTimeSliderChange() {
-      commitProgress = +document.getElementById("commit-progress").value;
-      commitMaxTime = timeScale.invert(commitProgress);
-  
-      document.getElementById("commit-slider-time").textContent = commitMaxTime.toLocaleString(undefined, {
-        dateStyle: "long",
-        timeStyle: "short",
-      });
-    }
-  
-    document.getElementById("commit-progress").addEventListener("input", onTimeSliderChange);
-    onTimeSliderChange(); // initialize display
-  });
-  
+  document.getElementById("commit-progress").addEventListener("input", onTimeSliderChange);
+  onTimeSliderChange(); 
   
