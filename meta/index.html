@@ -1,65 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Meta</title>
+  <meta charset="UTF-8">
+  <title>Projects</title>
   <link rel="stylesheet" href="../style.css" />
 </head>
+
 <body>
-  <!-- The navigation bar will be inserted here by JavaScript -->
+  <h1 class="projects-title">Projects</h1>
 
-  <h1>Meta</h1>
+  <!-- Step 3.1 Scrollytelling Layout -->
+  <div id="scrolly-1">
+    <div id="scatter-story">
+      <!-- JavaScript will inject .step divs with commit/project text -->
+    </div>
 
-  <!-- Filtering UI with date on the right -->
-  <div style="display: flex; align-items: center; margin-bottom: 1em; width: 100%;">
-  <label style="flex: 1;">
-    Show commits until:
-    <input type="range" id="commit-progress" min="0" max="100" value="100" style="width: 100%;">
-  </label>
-  <time id="commit-slider-time" style="margin-left: 1em; white-space: nowrap;"></time>
+    <div id="scatter-plot">
+      <section class="projects-chart">
+        <h2>Project Distribution</h2>
+        <div class="chart-container">
+          <svg id="projects-plot" viewBox="-50 -50 100 100"></svg>
+          <ul class="legend"></ul>
+        </div>
+        <input
+          class="searchBar"
+          type="search"
+          aria-label="Search projects"
+          placeholder="🔍 Search projects…"
+        />
+      </section>  
+    </div>
   </div>
 
-  <dl id="files">
-    <!-- Each file will be rendered inside a <div> like:
-    <div>
-      <dt><code>{file.name}</code></dt>
-      <dd>{file.lines.length} lines</dd>
-    </div>
-    -->
-  </dl>  
+  <!-- Moved outside the scrollytelling region -->
+  <div class="projects">
+    <!-- JavaScript will dynamically insert projects here -->
+  </div>
 
-
-  <h2>Commits by time of day</h2>
-  <div id="chart"></div>
-
-
-
-  <div id="stats" class="stats"></div>
-
-  <p id="selection-count">No commits selected</p>
-  
-  <dl id="language-breakdown" class="stats"></dl>
-
-  <dl id="commit-tooltip" class="info tooltip" hidden>
-    <dt>Commit</dt>
-    <dd><a href="" id="commit-link" target="_blank"></a></dd>
-
-    <dt>Date</dt>
-    <dd id="commit-date"></dd>
-
-    <!-- Optionally expand later -->
-    <dt>Time</dt>
-    <dd id="commit-time"></dd>
-
-    <dt>Author</dt>
-    <dd id="commit-author"></dd>
-
-    <dt>Lines Edited</dt>
-    <dd id="commit-lines"></dd>
-  </dl>
-
-  <!-- Load the JS that creates the nav and theme selector -->
-  <script src="../global.js" type="module"></script>
-  <script type="module" src="main.js"></script>
+  <script src="/portfolio/global.js" type="module"></script>
+  <script src="/portfolio/projects/index.js" type="module"></script>
 </body>
 </html>
