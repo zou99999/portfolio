@@ -1,4 +1,5 @@
 import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm';
+const colors = d3.scaleOrdinal(d3.schemeTableau10);
 let xScale, yScale;
 
 async function loadData() {
@@ -267,11 +268,13 @@ function renderCommitInfo(data, commits) {
   
     // Per-line <div class="loc">
     filesContainer
-      .select('dd')
-      .selectAll('div')
-      .data((d) => d.lines)
-      .join('div')
-      .attr('class', 'loc');
+  .select('dd')
+  .selectAll('div')
+  .data((d) => d.lines)
+  .join('div')
+  .attr('class', 'loc')
+  .attr('style', (d) => `--color: ${colors(d.type)}`);
+
   }
   
   
