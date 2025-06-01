@@ -243,7 +243,10 @@ function renderCommitInfo(data, commits) {
 
   function updateFileDisplay(filteredCommits) {
     const lines = filteredCommits.flatMap((d) => d.lines);
-    const files = d3.groups(lines, (d) => d.file).map(([name, lines]) => ({ name, lines }));
+  
+    const files = d3.groups(lines, (d) => d.file)
+      .map(([name, lines]) => ({ name, lines }))
+      .sort((a, b) => b.lines.length - a.lines.length); // ✅ sort descending
   
     const filesContainer = d3
       .select('#files')
